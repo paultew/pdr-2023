@@ -1,0 +1,1 @@
+protoc -I ./src/Protos --plugin=protoc-gen-ts_proto=.\\src\\pdr-web-client\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --ts_proto_opt=context=true --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/pdr-web-client/src/proto ./src/Protos/user.proto
