@@ -34,19 +34,21 @@ export function UserEditPage() {
                 </div>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" value={user.username} onChange={(e) => setUser({...user, username: e.target.value})} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="password" value={user.password} onChange={(e) => setUser({...user, email: e.target.value})} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={(e) => setUser({...user, password: e.target.value})} />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Update</button>
+                    <fieldset>
+                        <div className="mb-3">
+                            <label htmlFor="username" className="form-label">Username</label>
+                            <input type="text" id="username" className="form-control" value={user.username} onChange={(e) => setUser({...user, username: e.target.value})} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <input type="email" id="email" className="form-control" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" id="password" className="form-control" onChange={(e) => setUser({...user, password: e.target.value})} />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Update</button>
+                    </fieldset>
                 </form>
             )}
         </div>

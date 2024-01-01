@@ -1,22 +1,24 @@
 import { createBrowserRouter, Navigate, RouterProvider, } from 'react-router-dom';
+import App from './App';
 import { UserListPage } from './pages/UserListPage';
 import { UserEditPage } from './pages/UserEditPage';
+import { HomePage } from './pages/HomePage';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <UserListPage />,
+        element: <App />,
         children: [
-            { index: true, element: <Navigate to='/users' replace />},
+            { 
+                index: true, 
+                element: <HomePage />},
             { 
                 path: 'users', 
-                element: <UserListPage />,
-                children: [
-                    { 
-                        path: 'edit/:id', 
-                        element: <UserEditPage />
-                    }
-                ]
+                element: <UserListPage />
+            },
+            { 
+                path: 'users/edit/:id',
+                element: <UserEditPage />
             }
         ]
     }
