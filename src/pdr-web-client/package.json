@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@protobuf-ts/grpcweb-transport": "^2.9.3",
+    "@protobuf-ts/plugin": "^2.9.3",
+    "@protobuf-ts/runtime": "^2.9.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,8 +17,8 @@
     "dataloader": "^2.2.2",
     "google-protobuf": "^3.21.2",
     "grpc-web": "^1.5.0",
+    "node-fetch": "^2.7.0",
     "object-hash": "^3.0.0",
-    "protoc-gen-grpc-web": "^1.4.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
@@ -31,7 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "protoc": "npx protoc --ts_out ./src/generated --proto_path ./../Protos ./../Protos/user.proto"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.10",
     "@types/object-hash": "^3.0.6"
   }
 }

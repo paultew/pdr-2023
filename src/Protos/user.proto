@@ -8,7 +8,7 @@ service Users {
   rpc GetAll(EmptyRequest) returns (UsersReply) {}
   rpc GetById (UserFindRequest) returns (UserReply) {}
   rpc Create (UserCreateRequest) returns (UserCreateReply) {}
-  rpc Update (UserUpdateRequest) returns (UserReply) {}
+  rpc Update (UserUpdateRequest) returns (UserUpdateReply) {}
   rpc Delete (UserFindRequest) returns (EmptyReply) {}
 }
 
@@ -48,5 +48,12 @@ message UserUpdateRequest {
   string user_id = 1;
   string user_name = 2;
   string email = 3;
-  string password = 4;
+  string old_password = 4;
+  string new_password = 5;
+}
+
+message UserUpdateReply {
+  bool succeeded = 1;
+  repeated string errors = 2;
+  UserReply user = 3;
 }

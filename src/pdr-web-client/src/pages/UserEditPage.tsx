@@ -9,7 +9,8 @@ type UserEditParams = {
 type UserEditModel = {
     username: string,
     email: string,
-    password: string
+    oldPassword: string,
+    newPassword: string
 };
 
 export function UserEditPage() {
@@ -19,7 +20,8 @@ export function UserEditPage() {
     const [user, setUser] = useState<UserEditModel>({
         username: existingUser?.username ?? "",
         email: existingUser?.email ?? "",
-        password: ""
+        oldPassword: "",
+        newPassword: ""
     });
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -44,8 +46,12 @@ export function UserEditPage() {
                             <input type="email" id="email" className="form-control" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" id="password" className="form-control" onChange={(e) => setUser({...user, password: e.target.value})} />
+                            <label htmlFor="oldPassword" className="form-label">Old Password</label>
+                            <input type="password" id="oldPassword" className="form-control" onChange={(e) => setUser({...user, oldPassword: e.target.value})} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="newPassword" className="form-label">New Password</label>
+                            <input type="password" id="newPassword" className="form-control" onChange={(e) => setUser({...user, newPassword: e.target.value})} />
                         </div>
                         <button type="submit" className="btn btn-primary">Update</button>
                     </fieldset>

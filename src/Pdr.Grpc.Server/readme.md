@@ -1,0 +1,1 @@
+In order for CORS to work with gRPC Web we have to communicate over TLA since the client switches between HTTP/1.1 and HTTP/2. https://learn.microsoft.com/en-us/aspnet/core/grpc/aspnetcore?view=aspnetcore-8.0&tabs=visual-studio
