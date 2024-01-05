@@ -7,6 +7,6 @@ Our proxy is [Envoy](https://www.envoyproxy.io/) that runs inside a Docker conta
 Run the proxy as follows:
 
 ```console
-docker build -t envoy:v1
-docker run -d --name envoy -p 9901:9901 -p 10000:10000 envoy:v1
+docker build -t envoy:v1 .
+docker run -d --name envoy -p 8080:8080 -p 9901:9901 envoy:v1
 ```

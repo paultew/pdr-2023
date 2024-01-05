@@ -6,5 +6,5 @@ If(!(test-path -PathType container $output_path))
       New-Item -ItemType Directory -Path $output_path | Out-Null
 }
 
-npx protoc --ts_out "${output_path}" --proto_path ./../Protos ./../Protos/user.proto
+npx protoc --ts_out "${output_path}" --ts_opt eslint_disable --proto_path ./../Protos ./../Protos/user.proto
 

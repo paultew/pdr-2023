@@ -1,42 +1,51 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { users } from "../data/users";
-import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
-import { UsersClient } from "../generated/user.client";
-import { EmptyRequest, UserReply } from "../generated/user";
-import {default as fetch, Headers} from "node-fetch";
+import { UserReply } from "../generated/user";
+import { GrpcUserService } from "../services/UserService";
 
 export function UserListPage() {
-    let userList = new Array<UserReply>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [users, setUsers] = useState<UserReply[]>([]);
 
-    // fetch polyfill via https://github.com/node-fetch/node-fetch
-    globalThis.fetch = fetch as any;
-    globalThis.Headers = Headers as any;
+    useEffect(() => {
+        let cancel = false;
 
-    let transport = new GrpcWebFetchTransport({
-        baseUrl: "https://localhost:7024",
-        fetchInit: { mode: "cors" }
-    });
-    /*mode: "cors" */
+        var userService = new GrpcUserService();
+        userService.getAll().then((userList) => {
+            if (!cancel) {
+                setUsers(userList);
+                setIsLoading(false);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
-    let request = EmptyRequest.fromJson({});
-    let client = new UsersClient(transport);
-    //const enableDevTools = (window as any).__GRPCWEB_DEVTOOLS__;
-    //enableDevTools([
-    //  client,
-    //]);
+        return () => {
+            cancel = true;
+        }
 
-    client.getAll(request).then((response) => {
-        userList = response.response.users
-    }).catch((error) => {
-        console.log(error);
-    });
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="w-96 mx-auto mt-6">
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <div className="col">
             <div className="row">
-                <h2 className="text-xl font-bold text-slate-600">
-                    Users
-                </h2>
+                <div className="col-lg-auto my-auto">
+                    <h2 className="text-slate-600 pr-5">
+                        Users
+                    </h2>
+                </div>
+                <div className="col my-auto">
+                    <Link to='/users/create' className="btn btn-primary">Create</Link>
+                </div>
             </div>
             <div className="row">
                 <div className="col">
@@ -49,7 +58,7 @@ export function UserListPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {userList.map((user) => (
+                            {users.map((user) => (
                                 <tr key={user.userId}>
                                     <td><Link to={`/users/edit/${user.userId}`}>{user.userId}</Link></td>
                                     <td>{user.userName}</td>

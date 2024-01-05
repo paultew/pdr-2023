@@ -29,10 +29,25 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
         var result = await _userManager.CreateAsync(identityUser, request.Password);
         if (!result.Succeeded)
         {
-            var reply = new UserCreateReply { Succeeded = false };
+            var reply = new UserCreateReply { Succeeded = false, Errors = new UserCreateErrors() };
             foreach (var identityError in result.Errors)
             {
-                reply.Errors.Add(identityError.Description);
+                if (identityError.Code.Contains(nameof(PdrIdentityUser.UserName), StringComparison.OrdinalIgnoreCase))
+                {
+                    reply.Errors.UserName.Add(identityError.Description);
+                }
+                else if (identityError.Code.Contains(nameof(PdrIdentityUser.Email), StringComparison.OrdinalIgnoreCase))
+                {
+                    reply.Errors.Email.Add(identityError.Description);
+                }
+                else if (identityError.Code.Contains("Password", StringComparison.OrdinalIgnoreCase))
+                {
+                    reply.Errors.Password.Add(identityError.Description);
+                }
+                else
+                {
+                    reply.Errors.Other.Add(identityError.Description);
+                }
             }
 
             return reply;
@@ -63,7 +78,7 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
     {
         UsersReply usersReply = new UsersReply();
         
-        var pdrIdentityUsers = await _userManager.Users.ToListAsync();
+        var pdrIdentityUsers = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync();
         foreach (var pdrIdentityUser in pdrIdentityUsers)
         {
             usersReply.Users.Add(pdrIdentityUser.AsUserReply());
@@ -100,7 +115,7 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
             {
                 foreach (var identityError in updateUserNameResult.Errors)
                 {
-                    userUpdateReply.Errors.Add(identityError.Description);
+                    userUpdateReply.Errors.UserName.Add(identityError.Description);
                 }
 
                 return userUpdateReply;
@@ -114,7 +129,7 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
             {
                 foreach (var identityError in updateEmailResult.Errors)
                 {
-                    userUpdateReply.Errors.Add(identityError.Description);
+                    userUpdateReply.Errors.Email.Add(identityError.Description);
                 }
 
                 return userUpdateReply;
@@ -128,7 +143,14 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
             {
                 foreach (var identityError in changePasswordResult.Errors)
                 {
-                    userUpdateReply.Errors.Add(identityError.Description);
+                    if (identityError.Code.Contains("Password", StringComparison.OrdinalIgnoreCase))
+                    {
+                        userUpdateReply.Errors.NewPassword.Add(identityError.Description);
+                    }
+                    else
+                    {
+                        userUpdateReply.Errors.OldPassword.Add(identityError.Description);
+                    }
                 }
 
                 return userUpdateReply;

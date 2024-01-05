@@ -29,28 +29,25 @@ builder.Services.AddGrpc(options => {
     options.Interceptors.Add<ExceptionInterceptor>(); // Register custom ExceptionInterceptor interceptor
 });
 
-/*var corsPolicyName = "AllowAll";
+var corsPolicyName = "AllowAll";
 builder.Services.AddCors(o => o.AddPolicy(corsPolicyName, builder =>
 {
-    builder.SetIsOriginAllowed(origin =>
-           {
-               return true;
-           })
+    builder.WithOrigins()
            .AllowAnyMethod()
            .AllowAnyHeader()
            .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
-}));*/
+}));
 
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
 
 app.UseRouting();
-//app.UseCors();
+app.UseCors();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<UserGrpcService>().EnableGrpcWeb(); //.RequireCors(corsPolicyName)
+app.MapGrpcService<UserGrpcService>().EnableGrpcWeb().RequireCors(corsPolicyName);
 app.MapGet("/",
     () =>
         "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
