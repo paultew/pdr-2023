@@ -27,7 +27,6 @@ export function UserCreatePage() {
         watch,
         formState: { errors, isSubmitted },
       } = useForm<UserCreateModel>();
-    const [validationMessages, setValidationMessages] = useState<string[]>([]);
     const [formSubmitted, setFormSubmitted] = useState(false);
     
     const onSubmit: SubmitHandler<UserCreateModel> = (data) => {

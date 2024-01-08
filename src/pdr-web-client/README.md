@@ -1,15 +1,11 @@
-# Protobuf
+# Web Client
 
-The Protobuf service and message references are created with ts-proto using the proto-gen-grpc-web.ps1 powershell script at the root of the repository.
+This application was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forms_and_events/
-https://github.com/wpcodevo/node-react-trpc-crud-app/tree/master/packages/client
-https://github.com/Sany07/Book-Reading-List--React-CRUD/blob/master/src/components/BookDetail.js
-https://mobisoftinfotech.com/resources/blog/learn-typescript-with-react-by-building-a-crud-application/
+The Protobuf service and message references are created using [protobuf-ts](https://github.com/timostamm/protobuf-ts) using either the powershell script
+`proto-gen-grpc-web.ps1` or the NPM script `protoc` (the only difference being that the Powershell script creates the `generated` folder if it doesn't exist.
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The application uses Promises rather than async/await due to limitations of the version of Typescript used by `create react app`.
 
 ## Available Scripts
 
@@ -37,6 +33,10 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run protoc`
+
+Regenerates the Protobuf service and type definitions in Typescript format. Any changes to the proto file require this script to be run.
 
 ### `npm run eject`
 

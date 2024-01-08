@@ -1,11 +1,13 @@
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { default as fetch, Headers} from "node-fetch";
-import { EmptyRequest, UserCreateReply, UserCreateRequest, UserReply } from "../generated/user";
+import { EmptyRequest, UserCreateReply, UserCreateRequest, UserFindRequest, UserReply, UserUpdateReply, UserUpdateRequest } from "../generated/user";
 import { UsersClient } from "../generated/user.client";
 
 interface UserService {
     create(userCreateRequest: UserCreateRequest): Promise<UserCreateReply>;
     getAll(): Promise<UserReply[]>;
+    getById(userId: string): Promise<UserReply>;
+    update(userUpdateRequest: UserUpdateRequest): Promise<UserUpdateReply>;
 }
 
 export class GrpcUserService implements UserService {
@@ -47,4 +49,26 @@ export class GrpcUserService implements UserService {
         });
     }
 
+    getById(userId: string): Promise<UserReply> {
+        return new Promise((resolve, reject) => {
+            let request = UserFindRequest.fromJson({ userId: userId });
+            this.client.getById(request).then((response) => {
+                resolve(response.response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    update(userUpdateRequest: UserUpdateRequest): Promise<UserUpdateReply> {
+        return new Promise((resolve, reject) => {
+            this.client.update(userUpdateRequest).then((response) => {
+                resolve(response.response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
 }
