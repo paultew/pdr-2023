@@ -4,6 +4,7 @@ import { HomePage } from './pages/HomePage';
 import { UserListPage } from './pages/UserListPage';
 import { UserCreatePage } from './pages/UserCreatePage';
 import { UserEditPage } from './pages/UserEditPage';
+import { UserDeletePage } from './pages/UserDeletePage';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             { 
                 path: 'users/create',
                 element: <UserCreatePage />
+            },
+            { 
+                path: 'users/delete/:id',
+                element: <UserDeletePage />
             },
             { 
                 path: 'users/edit/:id',

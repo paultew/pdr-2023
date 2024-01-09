@@ -2,7 +2,6 @@ import { useState, FormEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { GrpcUserService } from "../services/UserService";
-import { users } from "../data/users";
 import { UserUpdateRequest } from "../generated/user";
 
 type UserEditParams = {
@@ -77,9 +76,6 @@ export function UserEditPage() {
             cancel = true;
         }
     }, []);
-    if (userId) {
-        
-    }
     
     const onSubmit: SubmitHandler<UserEditModel> = (data) => {
         const userUpdateRequest: UserUpdateRequest = { userId: userId, userName: data.username, email: data.email, oldPassword: data.oldPassword, newPassword: data.newPassword };
@@ -142,9 +138,9 @@ export function UserEditPage() {
         <div className="col">
             <div className="row">
                 <div className="col">
-                    <h2 className="text-slate-600">
+                    <h1 className="text-slate-600">
                         Update User
-                    </h2>
+                    </h1>
                 </div>
             </div>
             {errors.root && (

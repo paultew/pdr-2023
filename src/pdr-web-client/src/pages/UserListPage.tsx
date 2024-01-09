@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { TrashFill } from "react-bootstrap-icons";
 import { UserReply } from "../generated/user";
 import { GrpcUserService } from "../services/UserService";
 
@@ -39,9 +40,9 @@ export function UserListPage() {
         <div className="col">
             <div className="row">
                 <div className="col-lg-auto my-auto">
-                    <h2 className="text-slate-600 pr-5">
+                    <h1 className="text-slate-600 pr-5">
                         Users
-                    </h2>
+                    </h1>
                 </div>
                 <div className="col my-auto">
                     <Link to='/users/create' className="btn btn-primary">Create</Link>
@@ -55,6 +56,7 @@ export function UserListPage() {
                                 <th>ID</th>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <td>&nbsp;</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,6 +65,7 @@ export function UserListPage() {
                                     <td><Link to={`/users/edit/${user.userId}`}>{user.userId}</Link></td>
                                     <td>{user.userName}</td>
                                     <td>{user.email}</td>
+                                    <td><Link to={`/users/delete/${user.userId}`}><TrashFill className="mr-2" title="Delete Icon" />Delete</Link></td>
                                 </tr>
                             ))}
                         </tbody>

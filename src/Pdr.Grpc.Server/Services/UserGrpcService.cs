@@ -64,19 +64,29 @@ public class UserGrpcService : Pdr.Grpc.Server.Users.UsersBase
         return userCreateReply;
     }
 
-    public override async Task<EmptyReply> Delete(UserFindRequest request, ServerCallContext context)
+    public override async Task<UserDeleteReply> Delete(UserFindRequest request, ServerCallContext context)
     {
+        var userDeleteReply = new UserDeleteReply() { Succeeded = true };
+        
         var user = await _userManager.FindByIdAsync(request.UserId);
         if (user != null)
         {
-            await _userManager.DeleteAsync(user);
+            var identityResult = await _userManager.DeleteAsync(user);
+            if (!identityResult.Succeeded)
+            {
+                userDeleteReply.Succeeded = false;
+                foreach (var identityError in identityResult.Errors)
+                {
+                    userDeleteReply.Errors.Add(identityError.Description);
+                }
+            }
         }
-        return new EmptyReply();
+        return userDeleteReply;
     }
 
     public override async Task<UsersReply> GetAll(EmptyRequest request, ServerCallContext context)
     {
-        UsersReply usersReply = new UsersReply();
+        var usersReply = new UsersReply();
         
         var pdrIdentityUsers = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync();
         foreach (var pdrIdentityUser in pdrIdentityUsers)

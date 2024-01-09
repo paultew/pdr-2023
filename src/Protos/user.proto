@@ -9,7 +9,7 @@ service Users {
   rpc GetById (UserFindRequest) returns (UserReply) {}
   rpc Create (UserCreateRequest) returns (UserCreateReply) {}
   rpc Update (UserUpdateRequest) returns (UserUpdateReply) {}
-  rpc Delete (UserFindRequest) returns (EmptyReply) {}
+  rpc Delete (UserFindRequest) returns (UserDeleteReply) {}
 }
 
 message EmptyRequest {
@@ -39,6 +39,11 @@ message UserCreateReply {
 
 message UserFindRequest {
   string user_id = 1;
+}
+
+message UserDeleteReply {
+	bool succeeded = 1;
+	repeated string errors = 2;
 }
 
 message UserReply {

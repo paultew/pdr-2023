@@ -87,6 +87,19 @@ export interface UserFindRequest {
     userId: string;
 }
 /**
+ * @generated from protobuf message user.UserDeleteReply
+ */
+export interface UserDeleteReply {
+    /**
+     * @generated from protobuf field: bool succeeded = 1;
+     */
+    succeeded: boolean;
+    /**
+     * @generated from protobuf field: repeated string errors = 2;
+     */
+    errors: string[];
+}
+/**
  * @generated from protobuf message user.UserReply
  */
 export interface UserReply {
@@ -472,6 +485,61 @@ class UserFindRequest$Type extends MessageType<UserFindRequest> {
  */
 export const UserFindRequest = new UserFindRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class UserDeleteReply$Type extends MessageType<UserDeleteReply> {
+    constructor() {
+        super("user.UserDeleteReply", [
+            { no: 1, name: "succeeded", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "errors", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UserDeleteReply>): UserDeleteReply {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.succeeded = false;
+        message.errors = [];
+        if (value !== undefined)
+            reflectionMergePartial<UserDeleteReply>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UserDeleteReply): UserDeleteReply {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* bool succeeded */ 1:
+                    message.succeeded = reader.bool();
+                    break;
+                case /* repeated string errors */ 2:
+                    message.errors.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UserDeleteReply, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* bool succeeded = 1; */
+        if (message.succeeded !== false)
+            writer.tag(1, WireType.Varint).bool(message.succeeded);
+        /* repeated string errors = 2; */
+        for (let i = 0; i < message.errors.length; i++)
+            writer.tag(2, WireType.LengthDelimited).string(message.errors[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message user.UserDeleteReply
+ */
+export const UserDeleteReply = new UserDeleteReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class UserReply$Type extends MessageType<UserReply> {
     constructor() {
         super("user.UserReply", [
@@ -808,5 +876,5 @@ export const Users = new ServiceType("user.Users", [
     { name: "GetById", options: {}, I: UserFindRequest, O: UserReply },
     { name: "Create", options: {}, I: UserCreateRequest, O: UserCreateReply },
     { name: "Update", options: {}, I: UserUpdateRequest, O: UserUpdateReply },
-    { name: "Delete", options: {}, I: UserFindRequest, O: EmptyReply }
+    { name: "Delete", options: {}, I: UserFindRequest, O: UserDeleteReply }
 ]);

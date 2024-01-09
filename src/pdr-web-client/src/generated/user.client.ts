@@ -5,7 +5,7 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Users } from "./user";
-import type { EmptyReply } from "./user";
+import type { UserDeleteReply } from "./user";
 import type { UserUpdateReply } from "./user";
 import type { UserUpdateRequest } from "./user";
 import type { UserCreateReply } from "./user";
@@ -38,9 +38,9 @@ export interface IUsersClient {
      */
     update(input: UserUpdateRequest, options?: RpcOptions): UnaryCall<UserUpdateRequest, UserUpdateReply>;
     /**
-     * @generated from protobuf rpc: Delete(user.UserFindRequest) returns (user.EmptyReply);
+     * @generated from protobuf rpc: Delete(user.UserFindRequest) returns (user.UserDeleteReply);
      */
-    delete(input: UserFindRequest, options?: RpcOptions): UnaryCall<UserFindRequest, EmptyReply>;
+    delete(input: UserFindRequest, options?: RpcOptions): UnaryCall<UserFindRequest, UserDeleteReply>;
 }
 /**
  * @generated from protobuf service user.Users
@@ -80,10 +80,10 @@ export class UsersClient implements IUsersClient, ServiceInfo {
         return stackIntercept<UserUpdateRequest, UserUpdateReply>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: Delete(user.UserFindRequest) returns (user.EmptyReply);
+     * @generated from protobuf rpc: Delete(user.UserFindRequest) returns (user.UserDeleteReply);
      */
-    delete(input: UserFindRequest, options?: RpcOptions): UnaryCall<UserFindRequest, EmptyReply> {
+    delete(input: UserFindRequest, options?: RpcOptions): UnaryCall<UserFindRequest, UserDeleteReply> {
         const method = this.methods[4], opt = this._transport.mergeOptions(options);
-        return stackIntercept<UserFindRequest, EmptyReply>("unary", this._transport, method, opt, input);
+        return stackIntercept<UserFindRequest, UserDeleteReply>("unary", this._transport, method, opt, input);
     }
 }

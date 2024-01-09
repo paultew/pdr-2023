@@ -68,9 +68,9 @@ export function UserCreatePage() {
         <div className="col">
             <div className="row">
                 <div className="col">
-                    <h2 className="text-slate-600">
+                    <h1 className="text-slate-600">
                         Create User
-                    </h2>
+                    </h1>
                 </div>
             </div>
             {errors.root && (

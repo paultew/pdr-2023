@@ -1,10 +1,11 @@
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { default as fetch, Headers} from "node-fetch";
-import { EmptyRequest, UserCreateReply, UserCreateRequest, UserFindRequest, UserReply, UserUpdateReply, UserUpdateRequest } from "../generated/user";
+import { EmptyRequest, UserCreateReply, UserCreateRequest, UserDeleteReply, UserFindRequest, UserReply, UserUpdateReply, UserUpdateRequest } from "../generated/user";
 import { UsersClient } from "../generated/user.client";
 
 interface UserService {
     create(userCreateRequest: UserCreateRequest): Promise<UserCreateReply>;
+    delete(userId: string): Promise<UserDeleteReply>;
     getAll(): Promise<UserReply[]>;
     getById(userId: string): Promise<UserReply>;
     update(userUpdateRequest: UserUpdateRequest): Promise<UserUpdateReply>;
@@ -30,6 +31,18 @@ export class GrpcUserService implements UserService {
     create(userCreateRequest: UserCreateRequest): Promise<UserCreateReply> {
         return new Promise((resolve,reject) => {
             this.client.create(userCreateRequest).then((response) => {
+                resolve(response.response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    delete(userId: string): Promise<UserDeleteReply> {
+        return new Promise((resolve, reject) => {
+            let request = UserFindRequest.fromJson({ userId: userId });
+            this.client.delete(request).then((response) => {
                 resolve(response.response);
             })
             .catch((error) => {

@@ -7,6 +7,10 @@ The Protobuf service and message references are created using [protobuf-ts](http
 
 The application uses Promises rather than async/await due to limitations of the version of Typescript used by `create react app`.
 
+## Configuration
+
+The endpoint is set through the REACT_APP_API_BASE_URL environment variable. This is set to the Envoy proxy but doesn't currently support TLS.
+
 ## Available Scripts
 
 In the project directory, you can run:
