@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+      <UserSecretsId>253440f9-1583-4ad0-8349-50e86c40b9ee</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <Protobuf Include="..\Protos\user.proto" GrpcServices="Server" Link="Protos\user.proto" />

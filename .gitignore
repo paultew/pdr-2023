@@ -8,5 +8,12 @@ x86/
 [Bb]in/
 [Oo]bj/
 
-# JetBrains Ride
+# JetBrains Rider
 .idea/
+
+# Certificates and Keys
+*.crt
+*.csr
+*.key
+*.pfx
+*.srl
